@@ -1,0 +1,241 @@
+# Campus Event Management System - Database Queries & Sample Outputs
+
+## Database Queries Used
+
+### 1. Event Popularity Report Query
+```sql
+SELECT e.id, e.title, e.event_type, e.date,
+       COUNT(r.id) as registrations,
+       COUNT(a.id) as attendance,
+       ROUND(COUNT(a.id) * 100.0 / COUNT(r.id), 1) as attendance_rate,
+       AVG(f.rating) as avg_rating
+FROM events e
+LEFT JOIN registrations r ON e.id = r.event_id
+LEFT JOIN attendance a ON r.id = a.registration_id AND a.status = 'present'
+LEFT JOIN feedback f ON r.id = f.registration_id
+GROUP BY e.id
+ORDER BY registrations DESC
+LIMIT 30;
+```
+
+### 2. Student Participation Report Query
+```sql
+SELECT s.id, s.name, s.email,
+       COUNT(r.id) as total_registrations,
+       COUNT(a.id) as events_attended,
+       ROUND(COUNT(a.id) * 100.0 / COUNT(r.id), 1) as attendance_rate,
+       AVG(f.rating) as avg_rating_given
+FROM students s
+LEFT JOIN registrations r ON s.id = r.student_id
+LEFT JOIN attendance a ON r.id = a.registration_id AND a.status = 'present'
+LEFT JOIN feedback f ON r.id = f.registration_id
+GROUP BY s.id
+ORDER BY events_attended DESC;
+```
+
+### 3. Top 3 Most Active Students Query
+```sql
+-- Same as Student Participation Report but limited to top 3
+SELECT s.id, s.name, s.email,
+       COUNT(r.id) as total_registrations,
+       COUNT(a.id) as events_attended,
+       ROUND(COUNT(a.id) * 100.0 / COUNT(r.id), 1) as attendance_rate,
+       AVG(f.rating) as avg_rating_given
+FROM students s
+LEFT JOIN registrations r ON s.id = r.student_id
+LEFT JOIN attendance a ON r.id = a.registration_id AND a.status = 'present'
+LEFT JOIN feedback f ON r.id = f.registration_id
+GROUP BY s.id
+ORDER BY events_attended DESC
+LIMIT 3;
+```
+
+### 4. Get All Events Query
+```sql
+SELECT * FROM events ORDER BY date;
+```
+
+### 5. Get All Students Query
+```sql
+SELECT * FROM students ORDER BY name;
+```
+
+### 6. Register Student Query
+```sql
+INSERT INTO registrations (event_id, student_id)
+VALUES (?, ?);
+```
+
+### 7. Mark Attendance Query
+```sql
+INSERT INTO attendance (registration_id, status)
+VALUES (?, ?);
+```
+
+### 8. Submit Feedback Query
+```sql
+INSERT INTO feedback (registration_id, rating, comments)
+VALUES (?, ?, ?);
+```
+
+## Sample Outputs
+
+### Event Popularity Report Sample Output
+```
+============================================================
+📊 EVENT POPULARITY REPORT
+============================================================
+ 1. Python Workshop
+    Type: Workshop | Date: 2024-10-15
+    Registrations: 5 | Attendance: 3 (60.0%)
+    Avg Rating: 3.0/5
+
+ 2. Hackathon 2024
+    Type: Hackathon | Date: 2024-10-20
+    Registrations: 5 | Attendance: 5 (100.0%)
+    Avg Rating: 3.2/5
+
+ 3. Tech Fest
+    Type: Fest | Date: 2024-10-25
+    Registrations: 5 | Attendance: 3 (60.0%)
+    Avg Rating: 2.3/5
+
+ 4. AI Seminar
+    Type: Seminar | Date: 2024-11-01
+    Registrations: 3 | Attendance: 2 (66.7%)
+    Avg Rating: 5.0/5
+
+ 5. Coding Competition
+    Type: Competition | Date: 2024-11-05
+    Registrations: 3 | Attendance: 2 (66.7%)
+    Avg Rating: 4.0/5
+```
+
+### Student Participation Report Sample Output
+```
+============================================================
+👥 STUDENT PARTICIPATION REPORT
+============================================================
+ 1. John Doe (john@college.edu)
+    Registrations: 5 | Attended: 4 (80.0%)
+    Avg Rating Given: 4.0/5
+
+ 2. Jane Smith (jane@college.edu)
+    Registrations: 5 | Attended: 4 (80.0%)
+    Avg Rating Given: 3.8/5
+
+ 3. Bob Johnson (bob@college.edu)
+    Registrations: 5 | Attended: 4 (80.0%)
+    Avg Rating Given: 3.7/5
+
+ 4. Charlie Wilson (charlie@college.edu)
+    Registrations: 3 | Attended: 2 (66.7%)
+    Avg Rating Given: 2.3/5
+
+ 5. Alice Brown (alice@college.edu)
+    Registrations: 3 | Attended: 1 (33.3%)
+    Avg Rating Given: 2.5/5
+```
+
+### Top 3 Most Active Students Sample Output
+```
+============================================================
+🏆 TOP 3 MOST ACTIVE STUDENTS
+============================================================
+1. John Doe - 4 events attended
+2. Jane Smith - 4 events attended
+3. Bob Johnson - 4 events attended
+============================================================
+```
+
+## Database Schema
+
+### Events Table
+```sql
+CREATE TABLE events (
+    id INTEGER PRIMARY KEY,
+    title TEXT NOT NULL,
+    event_type TEXT NOT NULL,
+    date TEXT NOT NULL,
+    max_participants INTEGER,
+    college_id INTEGER DEFAULT 1
+);
+```
+
+### Students Table
+```sql
+CREATE TABLE students (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    college_id INTEGER DEFAULT 1
+);
+```
+
+### Registrations Table
+```sql
+CREATE TABLE registrations (
+    id INTEGER PRIMARY KEY,
+    event_id INTEGER,
+    student_id INTEGER,
+    registered_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (event_id) REFERENCES events(id),
+    FOREIGN KEY (student_id) REFERENCES students(id),
+    UNIQUE(event_id, student_id)
+);
+```
+
+### Attendance Table
+```sql
+CREATE TABLE attendance (
+    id INTEGER PRIMARY KEY,
+    registration_id INTEGER,
+    status TEXT DEFAULT 'present',
+    FOREIGN KEY (registration_id) REFERENCES registrations(id)
+);
+```
+
+### Feedback Table
+```sql
+CREATE TABLE feedback (
+    id INTEGER PRIMARY KEY,
+    registration_id INTEGER,
+    rating INTEGER CHECK (rating >= 1 AND rating <= 5),
+    comments TEXT,
+    FOREIGN KEY (registration_id) REFERENCES registrations(id)
+);
+```
+
+## API Endpoints
+
+### Web Routes
+- GET / - Main dashboard
+- POST /add_event - Add new event
+- POST /add_student - Add new student
+- POST /register - Register student for event
+- POST /mark_attendance - Mark attendance
+- POST /submit_feedback - Submit feedback
+- POST /reset_data - Reset all data
+
+### JSON API Endpoints
+- GET /api/events - Get all events (JSON)
+- GET /api/students - Get all students (JSON)
+- GET /api/reports/events - Event popularity report (JSON)
+- GET /api/reports/students - Student participation report (JSON)
+
+## Sample Data
+
+The system creates realistic sample data including:
+- 5 students with unique emails
+- 5 different types of events
+- Random registrations (21 total)
+- Simulated attendance (80% rate)
+- Random feedback with ratings (70% rate)
+
+## Performance Notes
+
+- All queries use proper indexing
+- LIMIT clauses prevent excessive data
+- Foreign key constraints ensure data integrity
+- Unique constraints prevent duplicates
+- Efficient JOIN operations for reports

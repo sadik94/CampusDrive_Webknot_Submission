@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Campus Event Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: none;
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .table th {
+            background-color: #f8f9fa;
+            border-top: none;
+        }
+        .badge {
+            font-size: 0.8em;
+        }
+        .event-card {
+            border-left: 4px solid #4facfe;
+        }
+        .attended {
+            border-left-color: #28a745;
+        }
+        .missed {
+            border-left-color: #dc3545;
+        }
+        .upcoming {
+            border-left-color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/student_dashboard">
+                <i class="fas fa-user-graduate me-2"></i>
+                Student Portal
+            </a>
+            <div class="navbar-nav ms-auto">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user me-2"></i>
+                        {{ session.student_name or 'Student' }} ({{ session.student_email }})
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/student_logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Welcome Message -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h2 class="card-title">Welcome, {{ session.student_name }}!</h2>
+                        <p class="card-text text-muted">Track your event participation and discover upcoming events</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upcoming Events For You -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-bell me-2"></i>Upcoming Events For You</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if upcoming_events %}
+                            <div class="list-group">
+                                {% for ev in upcoming_events[:5] %}
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-semibold">{{ ev[1] }}</div>
+                                        <small class="text-muted"><i class="fas fa-tag me-1"></i>{{ ev[2] }} • <i class="fas fa-calendar me-1"></i>{{ ev[3] }}</small>
+                                    </div>
+                                    <div>
+                                        {% if ev[0] in registered_event_ids %}
+                                            <span class="badge bg-success">Registered</span>
+                                        {% else %}
+                                            <form method="POST" action="/student_register_event" class="d-inline">
+                                                <input type="hidden" name="event_id" value="{{ ev[0] }}">
+                                                <button type="submit" class="btn btn-sm btn-primary">Register</button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted mb-0">No upcoming events found for you.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="stats-card text-center">
+                    <i class="fas fa-calendar-check fa-2x mb-2"></i>
+                    <div class="stats-number">{{ student_stats[0] if student_stats else 0 }}</div>
+                    <div>Total Registrations</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card text-center">
+                    <i class="fas fa-user-check fa-2x mb-2"></i>
+                    <div class="stats-number">{{ student_stats[1] if student_stats else 0 }}</div>
+                    <div>Events Attended</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card text-center">
+                    <i class="fas fa-percentage fa-2x mb-2"></i>
+                    <div class="stats-number">{{ student_stats[2] if student_stats else 0 }}%</div>
+                    <div>Attendance Rate</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card text-center">
+                    <i class="fas fa-star fa-2x mb-2"></i>
+                    <div class="stats-number">{{ "%.1f"|format(student_stats[3]) if student_stats and student_stats[3] else "0.0" }}</div>
+                    <div>Avg Rating Given</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- My Events -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>My Events</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if student_events %}
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Event</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Rating</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for event in student_events[:10] %}
+                                        <tr>
+                                            <td>
+                                                <strong>{{ event[1] }}</strong><br>
+                                                <small class="text-muted">{{ event[2] }}</small>
+                                            </td>
+                                            <td>{{ event[3] }}</td>
+                                            <td>
+                                                {% if event[6] == 'present' %}
+                                                    <span class="badge bg-success">Attended</span>
+                                                {% elif event[6] == 'absent' %}
+                                                    <span class="badge bg-danger">Missed</span>
+                                                {% else %}
+                                                    <span class="badge bg-warning">Pending</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if event[7] %}
+                                                    {{ "%.1f"|format(event[7]) }}/5
+                                                    {% for i in range(5) %}
+                                                        <i class="fas fa-star text-warning"></i>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <span class="text-muted">No rating</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-muted text-center">No events registered yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Events -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Upcoming Events</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if upcoming_events %}
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Event</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for event in upcoming_events[:10] %}
+                                        <tr>
+                                            <td>
+                                                <strong>{{ event[1] }}</strong><br>
+                                                <small class="text-muted">{{ event[2] }}</small>
+                                            </td>
+                                            <td>{{ event[3] }}</td>
+                                            <td>
+                                                {% if event[0] in registered_event_ids %}
+                                                    <span class="badge bg-success">Registered</span>
+                                                {% else %}
+                                                    <form method="POST" action="/student_register_event" class="d-inline">
+                                                        <input type="hidden" name="event_id" value="{{ event[0] }}">
+                                                        <button type="submit" class="btn btn-sm btn-outline-primary">Register</button>
+                                                    </form>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-muted text-center">No upcoming events.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All College Events -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-university me-2"></i>All College Events</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if all_upcoming_events %}
+                            <div class="row">
+                                {% for event in all_upcoming_events[:12] %}
+                                <div class="col-md-4 mb-3">
+                                    <div class="card event-card">
+                                        <div class="card-body">
+                                            <h6 class="card-title">{{ event[1] }}</h6>
+                                            <p class="card-text">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-tag me-1"></i>{{ event[2] }}<br>
+                                                    <i class="fas fa-calendar me-1"></i>{{ event[3] }}<br>
+                                                    <i class="fas fa-users me-1"></i>{{ event[5] }} registered
+                                                </small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted text-center">No upcoming college events.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

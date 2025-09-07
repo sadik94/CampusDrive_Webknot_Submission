@@ -1,0 +1,285 @@
+🎓 Campus Event Management System
+========================================
+✅ Database initialized successfully!
+
+📝 Creating sample data...
+❌ Student with email john@college.edu already exists!
+❌ Student with email jane@college.edu already exists!
+❌ Student with email bob@college.edu already exists!
+❌ Student with email alice@college.edu already exists!
+❌ Student with email charlie@college.edu already exists!
+✅ Event created: Python Workshop (ID: 41)
+✅ Event created: Hackathon 2024 (ID: 42)
+✅ Event created: Tech Fest (ID: 43)
+✅ Event created: AI Seminar (ID: 44)
+✅ Event created: Coding Competition (ID: 45)
+
+📋 Registering students for events...
+
+✅ Marking attendance...
+
+⭐ Collecting feedback...
+
+============================================================
+📊 EVENT POPULARITY REPORT
+============================================================
+ 1. Python Workshop
+    Type: Workshop | Date: 2024-10-15
+    Registrations: 12 | Attendance: 10 (83.3%)
+    Avg Rating: 2.8/5
+
+ 2. Tech Fest
+    Type: Fest | Date: 2024-10-25
+    Registrations: 11 | Attendance: 11 (100.0%)
+    Avg Rating: 2.4/5
+
+ 3. Hackathon 2024
+    Type: Hackathon | Date: 2024-10-20
+    Registrations: 10 | Attendance: 9 (90.0%)
+    Avg Rating: 2.7/5
+
+ 4. AI Seminar
+    Type: Seminar | Date: 2024-11-01
+    Registrations: 8 | Attendance: 8 (100.0%)
+    Avg Rating: 2.0/5
+
+ 5. Coding Competition
+    Type: Competition | Date: 2024-11-05
+    Registrations: 8 | Attendance: 8 (100.0%)
+    Avg Rating: 3.7/5
+
+ 6. Python Workshop
+    Type: Workshop | Date: 2024-10-15
+    Registrations: 5 | Attendance: 0 (0.0%)
+    Avg Rating: No ratings
+
+ 7. Hackathon 2024
+    Type: Hackathon | Date: 2024-10-20
+    Registrations: 5 | Attendance: 0 (0.0%)
+    Avg Rating: No ratings
+
+ 8. Tech Fest
+    Type: Fest | Date: 2024-10-25
+    Registrations: 5 | Attendance: 0 (0.0%)
+    Avg Rating: No ratings
+
+ 9. AI Seminar
+    Type: Seminar | Date: 2024-11-01
+    Registrations: 3 | Attendance: 0 (0.0%)
+    Avg Rating: No ratings
+
+10. Coding Competition
+    Type: Competition | Date: 2024-11-05
+    Registrations: 3 | Attendance: 0 (0.0%)
+    Avg Rating: No ratings
+
+11. Python Workshop
+    Type: Workshop | Date: 2024-10-15
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+12. Hackathon 2024
+    Type: Hackathon | Date: 2024-10-20
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+13. Tech Fest
+    Type: Fest | Date: 2024-10-25
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+14. AI Seminar
+    Type: Seminar | Date: 2024-11-01
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+15. Coding Competition
+    Type: Competition | Date: 2024-11-05
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+16. Python Workshop
+    Type: Workshop | Date: 2024-10-15
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+17. Hackathon 2024
+    Type: Hackathon | Date: 2024-10-20
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+18. Tech Fest
+    Type: Fest | Date: 2024-10-25
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+19. AI Seminar
+    Type: Seminar | Date: 2024-11-01
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+20. Coding Competition
+    Type: Competition | Date: 2024-11-05
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+21. Python Workshop
+    Type: Workshop | Date: 2024-10-15
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+22. Hackathon 2024
+    Type: Hackathon | Date: 2024-10-20
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+23. Tech Fest
+    Type: Fest | Date: 2024-10-25
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+24. AI Seminar
+    Type: Seminar | Date: 2024-11-01
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+25. Coding Competition
+    Type: Competition | Date: 2024-11-05
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+26. Python Workshop
+    Type: Workshop | Date: 2024-10-15
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+27. Hackathon 2024
+    Type: Hackathon | Date: 2024-10-20
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+28. Tech Fest
+    Type: Fest | Date: 2024-10-25
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+29. AI Seminar
+    Type: Seminar | Date: 2024-11-01
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+30. Coding Competition
+    Type: Competition | Date: 2024-11-05
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+31. Python Workshop
+    Type: Workshop | Date: 2024-10-15
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+32. Hackathon 2024
+    Type: Hackathon | Date: 2024-10-20
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+33. Tech Fest
+    Type: Fest | Date: 2024-10-25
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+34. AI Seminar
+    Type: Seminar | Date: 2024-11-01
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+35. Coding Competition
+    Type: Competition | Date: 2024-11-05
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+36. Python Workshop
+    Type: Workshop | Date: 2024-10-15
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+37. Hackathon 2024
+    Type: Hackathon | Date: 2024-10-20
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+38. Tech Fest
+    Type: Fest | Date: 2024-10-25
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+39. AI Seminar
+    Type: Seminar | Date: 2024-11-01
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+40. Coding Competition
+    Type: Competition | Date: 2024-11-05
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+41. Python Workshop
+    Type: Workshop | Date: 2024-10-15
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+42. Hackathon 2024
+    Type: Hackathon | Date: 2024-10-20
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+43. Tech Fest
+    Type: Fest | Date: 2024-10-25
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+44. AI Seminar
+    Type: Seminar | Date: 2024-11-01
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+45. Coding Competition
+    Type: Competition | Date: 2024-11-05
+    Registrations: 0 | Attendance: 0 (None%)
+    Avg Rating: No ratings
+
+
+============================================================
+👥 STUDENT PARTICIPATION REPORT
+============================================================
+ 1. Bob Johnson (bob@college.edu)
+    Registrations: 19 | Attended: 14 (73.7%)
+    Avg Rating Given: 2.1/5
+
+ 2. John Doe (john@college.edu)
+    Registrations: 17 | Attended: 12 (70.6%)
+    Avg Rating Given: 2.8/5
+
+ 3. Jane Smith (jane@college.edu)
+    Registrations: 16 | Attended: 11 (68.8%)
+    Avg Rating Given: 2.8/5
+
+ 4. Alice Brown (alice@college.edu)
+    Registrations: 10 | Attended: 6 (60.0%)
+    Avg Rating Given: 3.6/5
+
+ 5. Charlie Wilson (charlie@college.edu)
+    Registrations: 8 | Attended: 3 (37.5%)
+    Avg Rating Given: 2.6/5
+
+
+============================================================
+🏆 TOP 3 MOST ACTIVE STUDENTS
+============================================================
+1. Bob Johnson - 14 events attended
+2. John Doe - 12 events attended
+3. Jane Smith - 11 events attended
+============================================================
+
+🎉 Sample data created and reports generated!
+💡 You can modify the code to add more events, students, or registrations.
